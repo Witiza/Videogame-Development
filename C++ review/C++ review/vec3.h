@@ -75,16 +75,16 @@ public:
 		return (this->x == vector3.x && this->y == vector3.y && this->z == vector3.z);
 	}
 
-	vec3<float> normalize(const vec3 &vector3)
+	vec3<float> normalize()
 	{
 		vec3<float> result = new vec3<float>;
 
-			if (!vector3 == result)
+			if (!(this->x == result.x && this->y == result.y && this->z && result.z))
 			{
-				float module = sqrt(vector3.x ^ 2 + vector3.y ^ 2 + vector3.z ^ 2);
-				result.x = vector3.x / module;
-				result.y = vector3.y / module;
-				result.z = vector3.z / module;
+				float module = sqrt(x * x + y * y+ z *z);
+				result.x = x / module;
+				result.y = y / module;
+				result.z = z / module;
 			}
 
 			else
@@ -94,8 +94,29 @@ public:
 
 			return result;
 	}
+	
+	float distance_to(const vec3 &vector3)
+	{
+		vec3<TYPE> distance;
+		distance.x = x - vector3.x;
+		distance.x = y - vector3.y;
+		distance.x = z - vector3.z;
+		
+		float module = sqrtf(distance.x * distance.x + distance.y *  distance.y + distance.z * distance.z);
+		return module;
+	}
 
+	void zero()
+	{
+		x = NULL;
+		y = NULL;
+		z = NULL;
+	}
 
+	bool is_zero()
+	{
+		return(x == NULL && y == NULL && z == NULL);
+	}
 };
 
 #endif

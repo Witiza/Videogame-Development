@@ -4,34 +4,39 @@
 void main()
 {
 	//Test vectors (int-float-char)
-	vec3<char> vector_null = new vec3<char>;
-	vec3<int> int_vector_a = new vec3<int>(3, 5, 6);
-	vec3<int> int_vector_b = new vec3<int>(int_vector_a);
-	vec3<char> char_vector_a = new vec3<char>('b','C','d');
-	vec3<char> char_vector_b = new vec3<char>('p', 'T', 'm');
-	vec3<float> float_vector_a = new vec3<float>(3.56, -5.55, 5.23);
-	vec3<float> float_vector_b = new vec3<float>(6.66, 7.777, -9.8);
+	vec3<float> vector_0 = new vec3<float>;
+	vec3<float> vector_a = new vec3<float>(3.56f, -5.55f, 5.23f);
+	vec3<float> vector_b = new vec3<float>(6.66f, 7.777f, -9.8f);
+	vec3<float> vector_cpy_a = new vec3<float>(vector_a);
+	vec3<float> vector_cpy_b = new vec3<float>(vector_b);
+	vec3<float> vector_c = new vec3<float>(3.5f, 2.0f, 0.0f);
 
-	vec3<int> int_add = int_vector_a + int_vector_b;
+	vec3<float> vector_add = vector_a + vector_b;
 
-	vec3<float> float_add = float_vector_a + float_vector_b;
+	vec3<float> vector_subst = vector_a - vector_b;
 
-	vec3<char> char_add = char_vector_a + char_vector_b;
+	vector_cpy_a += vector_a;
 
-	vec3<int> int_subst = int_vector_a - int_vector_b;
+	vector_cpy_b -= vector_b;
 
-	vec3<float> float_subst = float_vector_a - float_vector_b;
+	vector_0 = vector_a;
 
-	vec3<char> char_subst = char_vector_a - char_vector_b;
+	bool equal = vector_0 == vector_a;
 
-	int_subst += int_vector_a;
+	vec3<float> normalize_a = vector_a.normalize();
 
-	int_subst -= int_vector_a;
+	float distance_a_b = vector_a.distance_to(vector_b);
 
-	int_subst = int_vector_a;
+	vector_c.zero();
 
-	bool test = int_subst == int_vector_a;
-	
+	bool is_zero = vector_c.is_zero();
+
+
+
+
+
+
+
 	
 
 	getchar();
