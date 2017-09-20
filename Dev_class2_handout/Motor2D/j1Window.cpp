@@ -19,7 +19,7 @@ j1Window::~j1Window()
 }
 
 // Called before render is available
-bool j1Window::Awake()
+bool j1Window::Awake(pugi::xml_node node)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -34,26 +34,26 @@ bool j1Window::Awake()
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
 
-		width = WIDTH;
-		height = HEIGHT;
-		scale = SCALE;
+		width = node.child("Window").child("SIZE").attribute("width").as_uint();
+		height = node.child("Window").child("SIZE").attribute("height").as_uint();
+		scale = node.child("Window").child("SCALE").attribute("value").as_uint();
 
-		if(FULLSCREEN)
+		if(node.child("Window").child("FULLSCREEN").attribute("value").as_bool())
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(BORDERLESS)
+		if(node.child("Window").child("BORDERLESS").attribute("value").as_bool())
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(RESIZABLE)
+		if(node.child("Window").child("RESIZABLE").attribute("value").as_bool())
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(FULLSCREEN_WINDOW)
+		if(node.child("Window").child("FULLSCREEN_DESKTOP").attribute("value").as_bool())
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
@@ -72,8 +72,8 @@ bool j1Window::Awake()
 
 			// TODO 4: Read the title of the app from the XML
 			// and set directly the window title using SetTitle()
-			SetTitle(config_file)
 
+			SetTitle(node.child("App").child("name").child_value());
 				
 
 		}

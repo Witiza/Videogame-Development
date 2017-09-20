@@ -106,7 +106,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="config.xml">
+    <Xml Include="..\Game\config.xml">
       <Filter>Desenvolupament  ========\Files</Filter>
     </Xml>
   </ItemGroup>

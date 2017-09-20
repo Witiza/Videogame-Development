@@ -1,7 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 
 <!--Config file-->
 
 <config>
-  <name>Sampole game XML</name>
+  <App>
+    <name>Sampole game XML</name>
+  </App>
+  
+  <Window>
+    <SIZE width="1024" height="768" />
+    <FULLSCREEN value="false"></FULLSCREEN>
+    <BORDERLESS value="false"></BORDERLESS>
+    <RESIZABLE value="true"></RESIZABLE>
+    <FULLSCREEN_WINDOW value="false"></FULLSCREEN_WINDOW>
+    <TITLE>replaceme title</TITLE>
+    <SCALE value="1"></SCALE>
+  
+  </Window>
+  
+  
+ 
+  <Audio>
+    <DEFAULT_MUSIC_FADE_TIME value="2.0f"></DEFAULT_MUSIC_FADE_TIME>
+    <MUSIC_VOLUME value="100"/>
+    <FX_VOLUME value="100"/>
+  </Audio>
+
+  <Input>
+    <NUM_KEYS value="352"></NUM_KEYS>
+    <NUM_MOUSE_BUTTONS value="5"></NUM_MOUSE_BUTTONS>
+    <LAST_KEYS_PRESSED_BUFFER value="50"></LAST_KEYS_PRESSED_BUFFER>
+  </Input>
+ 
+  <Renderer>
+    <VSYINC value="true"></VSYINC>
+  </Renderer>
+    
+  <Textures></Textures>
+ 
+  <Window>
+    <FULLSCREEN value="false"></FULLSCREEN>
+    <BORDERLESS value="false"></BORDERLESS>
+    <RESIZABLE value="true"></RESIZABLE>
+    <FULLSCREEN_WINDOW value="false"></FULLSCREEN_WINDOW>
+    <TITLE>replaceme title</TITLE>
+    <SCALE value="1"></SCALE>
+    <SIZE width="1024" height="768" />
+  </Window>
+ 
+  <Scene></Scene>
+
+  <Programming2>
+    <Strings>
+      <SHORT_STR value="32" ></SHORT_STR>
+      <MID_STR value="255"></MID_STR>
+      <HUGE_STR value="8192"></HUGE_STR>
+      <TMP_STRING_SIZE value="4096"></TMP_STRING_SIZE>
+    </Strings>
+
+    <Dynamic_array>
+      <DYN_ARRAY_BLOCK_SIZE value="16"></DYN_ARRAY_BLOCK_SIZE>
+    </Dynamic_array>
+    
+    
+  </Programming2>
+
+  
 </config>

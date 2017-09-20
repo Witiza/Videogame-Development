@@ -19,7 +19,7 @@ j1Audio::~j1Audio()
 {}
 
 // Called before render is available
-bool j1Audio::Awake()
+bool j1Audio::Awake(pugi::xml_node node)
 {
 	LOG("Loading Audio Mixer");
 	bool ret = true;
@@ -50,6 +50,9 @@ bool j1Audio::Awake()
 		active = false;
 		ret = true;
 	}
+
+	fx_volume = node.child("audio").child("fx_volume").attribute("value").as_uint();
+	music_volume = node.child("audio").child("music_volume").attribute("value").as_uint();
 
 	return ret;
 }
@@ -129,7 +132,8 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 			}
 		}
 	}
-
+	Mix_VolumeMusic(music_volume);
+	
 	LOG("Successfully playing %s", path);
 	return ret;
 }
@@ -153,7 +157,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 		fx.add(chunk);
 		ret = fx.count();
 	}
-
+	Mix_VolumeChunk(chunk, fx_volume);
 	return ret;
 }
 
