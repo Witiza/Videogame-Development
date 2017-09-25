@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
+#define VOLUME_CHANGING_SPEED 1
 
 struct _Mix_Music;
 struct Mix_Chunk;
@@ -32,10 +33,18 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void Modify_volume(int value);
+
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&);
+
 private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+
+public:
+	int master_vol;
 };
 
 #endif // __j1AUDIO_H__

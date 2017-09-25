@@ -10,6 +10,12 @@
     <vsync value="false"/>
   </renderer>
 
+  <audio>
+    <MASTER_VOLUME value="100"/>
+    <MUSIC_VOLUME value="100"/>
+    <FX_VOLUME value="100"/>
+  </audio>
+
   <window>
     <resolution width="1024" height="768" scale="1"/>
     <fullscreen value="false"/>

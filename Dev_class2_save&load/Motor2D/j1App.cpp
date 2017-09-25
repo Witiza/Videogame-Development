@@ -63,6 +63,7 @@ void j1App::AddModule(j1Module* module)
 bool j1App::Awake()
 {
 	bool ret = LoadConfig();
+	ret = LoadSavefile();
 
 	// self-config
 	title.create(app_config.child("title").child_value());
@@ -154,11 +155,12 @@ bool j1App::LoadSavefile()
 	if (result == NULL)
 	{
 		LOG("Could not load map xml file config.xml. pugi error: %s", result.description());
-		ret = false;
+		savefile_exists = false;
 	}
 	else
 	{
 		save_node = save_file.child("save");
+		savefile_exists = true;
 	}
 
 	return ret;
@@ -178,7 +180,6 @@ void j1App::FinishUpdate()
 		if (!real_load())
 			LOG("Couldn't load file");
 		else
-			LOG("LOADED");
 		need_load = false;
 	}
 
@@ -307,11 +308,34 @@ void j1App::load()
 	need_load = true;
 }
 
-bool j1App::real_save() const
+bool j1App::real_save() 
 {
+	if (!savefile_exists)
+	{
+		save_file.append_child("save");
+	}
+	LOG("SAVED");
+	bool ret = true;
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+	j1Module* pModule = NULL;
+
+	for (item = modules.start; item != NULL && ret == true; item = item->next)
+	{
+		pModule = item->data;
+
+		if (pModule->active == false) {
+			continue;
+		}
+		ret = item->data->Save(save_node);
+
+	}
+
 	LOG("SAVED");
 
-	return true;
+
+
+	return ret;
 }
 
 bool j1App::real_load()
@@ -332,7 +356,7 @@ bool j1App::real_load()
 	
 	}
 
-
+	LOG("loaded");
 	
 
 	return ret;

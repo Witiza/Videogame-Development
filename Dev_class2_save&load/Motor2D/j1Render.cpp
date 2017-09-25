@@ -94,6 +94,15 @@ bool j1Render::CleanUp()
 	 return true;
 }
 
+ bool j1Render::Save(pugi::xml_node& save)
+ {
+	save.child("renderer").child("camera").attribute("x").set_value(camera.x);
+	save.child("renderer").child("camera").attribute("y").set_value(camera.y);
+
+	 return true;
+ }
+
+
 // TODO 6: Create a method to load the state
 // for now it will be camera's x and y
 

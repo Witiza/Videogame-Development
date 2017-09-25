@@ -46,11 +46,12 @@ public:
 
 	void save();
 	void load();
-	bool real_save() const;
+	bool real_save();
 	bool real_load();
 
 	bool need_save;
 	bool need_load;
+	bool savefile_exists;
 
 	// TODO 1: Create methods to save and load
 	// that can be called anytime, even if they 
@@ -90,16 +91,18 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 
-private:
-
-	p2List<j1Module*>	modules;
-	uint				frames;
-	float				dt;
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
 	pugi::xml_document save_file;
 	pugi::xml_node save_node;
+
+private:
+
+	p2List<j1Module*>	modules;
+	uint				frames;
+	float				dt;
+	
 	int					argc;
 	char**				args;
 

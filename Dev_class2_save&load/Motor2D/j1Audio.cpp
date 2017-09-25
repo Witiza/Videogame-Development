@@ -51,6 +51,9 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	master_vol = config.child("MASTER_VOLUME").attribute("value").as_int();
+
+	
 	return ret;
 }
 
@@ -130,6 +133,8 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		}
 	}
 
+	Mix_VolumeMusic(master_vol);
+
 	LOG("Successfully playing %s", path);
 	return ret;
 }
@@ -154,6 +159,8 @@ unsigned int j1Audio::LoadFx(const char* path)
 		ret = fx.count();
 	}
 
+	Mix_VolumeChunk(chunk, master_vol);
+
 	return ret;
 }
 
@@ -171,4 +178,37 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+void j1Audio::Modify_volume(int value)
+{
+	master_vol += value;
+
+	if (master_vol < 0)
+	{
+		master_vol = 0;
+	}
+
+	else if (master_vol > 128)
+	{
+		master_vol = 128;
+	}
+
+	
+	Mix_VolumeMusic(master_vol);
+}
+
+bool j1Audio::Load(pugi::xml_node& save)
+{
+	master_vol = save.child("audio").child("master_volume").attribute("value").as_int();
+	Mix_VolumeMusic(master_vol);
+
+	return true;
+}
+
+bool j1Audio::Save(pugi::xml_node& save)
+{
+	save.child("audio").child("master_volume").attribute("value").set_value(master_vol);
+
+	return true;
 }
