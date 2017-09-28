@@ -14,7 +14,8 @@
 // TODO 1: Create a struct needed to hold the information to Map node
 enum map_orientation
 {
-	orthogonal = 0,
+	invalid_orientation =0,
+	orthogonal,
 	isometric,
 	staggered,
 	hexagonal,
@@ -22,7 +23,8 @@ enum map_orientation
 
 enum render_order
 {
-	right_down = 0,
+	invalid_order =0,
+	right_down,
 	right_up,
 	left_down,
 	left_up,
@@ -30,23 +32,23 @@ enum render_order
 
 struct map
 {
-	map_orientation  orientation;
-	render_order renderorder;
-	uint width;
-	uint height;
-	uint tilewidth;
-	uint tileheight;
-	int nextobjectid;
+	map_orientation  orientation = invalid_orientation;
+	render_order renderorder = invalid_order;
+	uint width = 0;
+	uint height = 0;
+	uint tilewidth = 0;
+	uint tileheight = 0;
+	int nextobjectid = 0;
 };
 
 struct TileSet
 {
-	int firstgid;
+	int firstgid = 0;
 	p2SString name;
-	uint tilewidth;
-	uint tileheight;
-	uint spacing;
-	uint margin;
+	uint tilewidth = 0;
+	uint tileheight = 0;
+	uint spacing = 0;
+	uint margin = 0;
 };
 
 // ----------------------------------------------------
@@ -78,9 +80,8 @@ private:
 public:
 
 	map current_map;
-
 	// TODO 1: Add your struct for map info as public for now
-	
+	p2List<TileSet> tiles;
 
 private:
 
