@@ -19,11 +19,11 @@ public:
 	vec3(const TYPE x, const TYPE y, const TYPE z) : x(x), y(y), z(z)
 	{};
 
-	vec3(const vec3 *vector3)
+	vec3(const vec3 &vector3)
 	{
-		this->x = vector3->x;
-		this->y = vector3->y;
-		this->z = vector3->z;
+		x = vector3.x;
+	y = vector3.y;
+		z = vector3.z;
 	};
 
 	~vec3()
@@ -49,28 +49,28 @@ public:
 		return result;
 	}
 
-	void operator+= (const vec3 &vector3)
+	void operator += (const vec3 &vector3)
 	{
 		this->x += vector3.x;
 		this->y += vector3.y;
 		this->z += vector3.z;
 	}
 
-	void operator-= (const vec3 &vector3)
+	void operator -= (const vec3 &vector3)
 	{
 		this->x -= vector3.x;
 		this->y -= vector3.y;
 		this->z -= vector3.z;
 	}
 
-	void operator= (const vec3 &vector3)
+	void operator = (const vec3 &vector3)
 	{
 		this->x = vector3.x;
 		this->y = vector3.y;
 		this->z = vector3.z;
 	}
 
-	bool operator== (const vec3 &vector3)
+	bool operator == (const vec3 &vector3)
 	{
 		return (this->x == vector3.x && this->y == vector3.y && this->z == vector3.z);
 	}
@@ -108,14 +108,14 @@ public:
 
 	void zero()
 	{
-		x = NULL;
-		y = NULL;
-		z = NULL;
+		x = 0;
+		y = 0;
+		z = 0;
 	}
 
 	bool is_zero()
 	{
-		return(x == NULL && y == NULL && z == NULL);
+		return(x == 0 && y == 0 && z == 0L);
 	}
 };
 
