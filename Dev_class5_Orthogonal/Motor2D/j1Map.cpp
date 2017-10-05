@@ -36,7 +36,9 @@ void j1Map::Draw()
 	{
 		for (uint j = 0; j < data.width; j++)
 		{
-			//App->render->Blit(data.tilesets[0]->texture, j*data.tile_width, i*data.tile_height, )
+
+			App->render->Blit(data.tilesets[0]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[0]->GetTileRect(data.layers[0]->data[data.layers[0]->Get(j, i)]));
+		
 		}
 	}
 		// TODO 9: Complete the draw function
