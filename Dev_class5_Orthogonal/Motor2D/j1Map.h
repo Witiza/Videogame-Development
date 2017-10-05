@@ -18,8 +18,13 @@ struct MapLayer
 
 	~MapLayer();
 
+	inline uint Get(uint x, uint y) const
+	{
+		return x + y*width;
+	}
 };
 	// TODO 6: Short function to get the value of x,y
+
 
 
 
@@ -97,6 +102,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single laye
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	SDL_Rect id_to_rect(uint id);
 
 public:
 

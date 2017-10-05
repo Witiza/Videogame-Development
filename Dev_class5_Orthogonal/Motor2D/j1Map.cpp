@@ -32,7 +32,13 @@ void j1Map::Draw()
 		return;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
-
+	for (uint i = 0; i < data.height; i++)
+	{
+		for (uint j = 0; j < data.width; j++)
+		{
+			//App->render->Blit(data.tilesets[0]->texture, j*data.tile_width, i*data.tile_height, )
+		}
+	}
 		// TODO 9: Complete the draw function
 
 }
@@ -173,7 +179,7 @@ bool j1Map::Load(const char* file_name)
 			MapLayer* l = item_layer->data;
 			LOG("Layer ----");
 			LOG("name: %s", l->name.GetString());
-			LOG("tile width: %d tile height: %d", l->width, l->height);
+			LOG("layer width: %d layer height: %d", l->width, l->height);
 			item_layer = item_layer->next;
 		}
 	}
@@ -323,17 +329,22 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 
 	memset(layer->data, 0, sizeof(uint)*layer->size);
 
-	pugi::xml_node tileset;
+	pugi::xml_node layer_node;
 	int i = 0;
-	for(tileset = node.child("data").child("tile");tileset;tileset = tileset.next_sibling("tile"))
+	for(layer_node = node.child("data").child("tile"); layer_node; layer_node = layer_node.next_sibling("tile"))
 	{
 		
-		layer->data[i++] = tileset.attribute("gid").as_uint(0);
-		LOG("%i", layer->data[i]);
+		layer->data[i++] = layer_node.attribute("gid").as_uint(0);
+		LOG("%i ->%i", i-1, layer->data[i-1]);
 	
 	}
 
 	return true;
+}
+
+SDL_Rect j1Map::id_to_rect(uint id)
+{
+	return SDL_Rect();
 }
 
 MapLayer::~MapLayer()
