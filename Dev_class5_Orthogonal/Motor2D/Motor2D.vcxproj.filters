@@ -107,5 +107,13 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Desenvolupament  ========\Files">
+      <UniqueIdentifier>{ddaf4ad4-59f7-4824-92c2-0f1d99104b38}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Game\maps\hello2.tmx">
+      <Filter>Desenvolupament  ========\Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

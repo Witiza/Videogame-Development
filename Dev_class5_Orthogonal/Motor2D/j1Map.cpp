@@ -77,7 +77,15 @@ bool j1Map::CleanUp()
 
 	// TODO 2: clean up all layer data
 	// Remove all layers
+	p2List_item<MapLayer*>* item2;
+	item2 = data.layers.start;
 
+	while (item != NULL)
+	{
+		RELEASE(item2->data);
+		item2 = item2->next;
+	}
+	data.tilesets.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -126,7 +134,18 @@ bool j1Map::Load(const char* file_name)
 
 	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
+	for (tileset = map_file.child("map").child("layer"); tileset && ret; tileset = tileset.next_sibling("tile"))
+	{
+		MapLayer* set = new MapLayer();
 
+		if (ret == true)
+		{
+			ret = LoadLayer(tileset, set);
+		}
+
+	 
+		data.layers.add(set);
+	}
 
 	if(ret == true)
 	{
@@ -147,7 +166,7 @@ bool j1Map::Load(const char* file_name)
 
 		// TODO 4: Add info here about your loaded layers
 		// Adapt this vcode with your own variables
-		/*
+		
 		p2List_item<MapLayer*>* item_layer = data.layers.start;
 		while(item_layer != NULL)
 		{
@@ -156,7 +175,7 @@ bool j1Map::Load(const char* file_name)
 			LOG("name: %s", l->name.GetString());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layer = item_layer->next;
-		}*/
+		}
 	}
 
 	map_loaded = ret;
@@ -291,7 +310,33 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
-//bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
-//{
-//}
+bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
+{
+	
+	layer->name = node.attribute("name").as_string();
+	layer->width = node.attribute("width").as_uint();
+	layer->height = node.attribute("height").as_uint();
+
+	layer->size = layer->width * layer->height;
+
+	layer->data = new uint[layer->size];
+
+	memset(layer->data, 0, sizeof(uint)*layer->size);
+
+	pugi::xml_node tileset;
+	int i = 0;
+	for(tileset = node.child("data").child("tile");tileset;tileset = tileset.next_sibling("tile"))
+	{
+		
+		layer->data[i++] = tileset.attribute("gid").as_uint(0);
+		LOG("%i", layer->data[i]);
+	
+	}
+
+	return true;
+}
+
+MapLayer::~MapLayer()
+{
+	delete[] data;
+}
