@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Input.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -342,6 +343,17 @@ bool j1Map::LoadLayer(pugi::xml_node & node, MapLayer * layer)
 	}
 
 	return true;
+}
+
+iPoint j1Map::GetMouseTile()
+{
+	
+	int mouse_x;
+	int mouse_y;
+	App->input->GetMousePosition(mouse_x, mouse_y);
+	
+
+	return new iPoint(mouse_x / data.tile_width, mouse_y / data.tile_height);
 }
 
 SDL_Rect j1Map::id_to_rect(uint id)

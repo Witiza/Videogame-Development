@@ -95,13 +95,16 @@ public:
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
 
+	iPoint GetMouseTile();
+
 private:
 
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	// TODO 3: Create a method that loads a single laye
+	// TODO 3: Create a method that loads a single layeer
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+
 	SDL_Rect id_to_rect(uint id);
 
 public:
