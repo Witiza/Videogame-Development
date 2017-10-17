@@ -39,7 +39,12 @@ void j1Map::PropagateBFS()
 {
 	// TODO 1: If frontier queue contains elements
 	// pop the last one and calculate its 4 neighbors
-
+	iPoint tmp;
+	if (frontier.Count() == 0)
+	{
+		tmp = frontier.GetLast()->data;
+		frontier.Pop(frontier.GetLast()->data);
+	}
 	// TODO 2: For each neighbor, if not visited, add it
 	// to the frontier queue and visited list
 }
@@ -200,6 +205,11 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	}
 
 	return ret;
+}
+
+bool j1Map::CalculateNeighbors(iPoint* origin, iPoint* n1, iPoint* n2, iPoint* n3, iPoint* n4)
+{
+	return false;
 }
 
 SDL_Rect TileSet::GetTileRect(int id) const

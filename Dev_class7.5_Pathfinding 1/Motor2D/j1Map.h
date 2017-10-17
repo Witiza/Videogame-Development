@@ -122,6 +122,7 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
+	bool CalculateNeighbors(iPoint* origin, iPoint* n1, iPoint* n2, iPoint* n3, iPoint* n4);
 
 	// BFS
 	void PropagateBFS();
