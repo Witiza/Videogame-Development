@@ -128,7 +128,7 @@ public:
 	iPoint WorldToMap(int x, int y) const;
 
 	// Pathfinding
-	int MovementCost(int x, int y) const;
+	int MovementCost(int x, int y)const;
 	void ResetPath();
 	void DrawPath();
 	void Path(int x, int y);

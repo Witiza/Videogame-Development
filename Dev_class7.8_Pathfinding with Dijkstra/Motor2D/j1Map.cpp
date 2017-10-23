@@ -33,6 +33,23 @@ bool j1Map::Start()
 	return true;
 }
 
+int j1Map::MovementCost(int x, int y) const
+{
+	int ret = -1;
+
+	if (x >= 0 && x < data.width && y >= 0 && y < data.height)
+	{
+		int id = data.layers.start->next->data->Get(x, y);
+
+		if (id == 0)
+			ret = 3;
+		else
+			ret = 0;
+	}
+
+	return ret;
+}
+
 void j1Map::ResetPath()
 {
 	frontier.Clear();
@@ -67,49 +84,36 @@ void j1Map::PropagateDijkstra()
 	// TODO 3: Taking BFS as a reference, implement the Dijkstra algorithm
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
-//	iPoint curr;
-//	
-//	if (frontier.Pop(curr))
-//	{
-//		iPoint neighbors[4];
-//		neighbors[0].create(curr.x + 1, curr.y + 0);
-//		neighbors[1].create(curr.x + 0, curr.y + 1);
-//		neighbors[2].create(curr.x - 1, curr.y + 0);
-//		neighbors[3].create(curr.x + 0, curr.y - 1);
-//
-//		for (uint i = 0; i < 4; ++i)
-//		{
-//			if (MovementCost(neighbors[i].x, neighbors[i].y) > 0)
-//			{
-//				if (visited.find(neighbors[i]) == -1)
-//				{
-//					frontier.Push(neighbors[i], 0);
-//					visited.add(neighbors[i]);
-//					breadcrumbs.add(curr);
-//					
-//				}
-//			}
-//		}
-//	}
-//}
-//}
-
-int j1Map::MovementCost(int x, int y) const
-{
-	int ret = -1;
-
-	if (x >= 0 && x < data.width && y >= 0 && y < data.height)
+	iPoint curr;
+	
+	if (frontier.Pop(curr))
 	{
-		int id = data.layers.start->next->data->Get(x, y);
+		iPoint neighbors[4];
+		neighbors[0].create(curr.x + 1, curr.y + 0);
+		neighbors[1].create(curr.x + 0, curr.y + 1);
+		neighbors[2].create(curr.x - 1, curr.y + 0);
+		neighbors[3].create(curr.x + 0, curr.y - 1);
 
-		if (id == 0)
-			ret = 3;
-		else
-			ret = 0;
+		for (uint i = 0; i < 4; ++i)
+		{
+			uint new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+			if (new_cost != cost_so_far[curr.x][curr.y] - 1)
+			{
+				if (!cost_so_far[neighbors[i].x][neighbors[i].y] || cost_so_far[neighbors[i].x][neighbors[i].y] > new_cost)
+				{
+					frontier.Push(neighbors[i], new_cost);
+					cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
+					visited.add(neighbors[i]);
+					breadcrumbs.add(curr);
+				}
+			}
+		}
 	}
-
-	return ret;
 }
+
+
+
+
 
 void j1Map::PropagateBFS()
 {
