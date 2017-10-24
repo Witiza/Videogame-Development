@@ -151,6 +151,8 @@ private:
 public:
 
 	MapData data;
+	iPoint* Goal;
+	bool Goal_Found;
 
 private:
 

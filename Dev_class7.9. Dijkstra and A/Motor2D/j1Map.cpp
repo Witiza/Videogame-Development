@@ -30,6 +30,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 bool j1Map::Start()
 {
 	tile_x = App->tex->Load("maps/x.png");
+	Goal_Found = false;
 	return true;
 }
 
@@ -58,6 +59,7 @@ void j1Map::ResetPath()
 	frontier.Push(iPoint(19, 4), 0);
 	visited.add(iPoint(19, 4));
 	breadcrumbs.add(iPoint(19, 4));
+	Goal = nullptr;
 	memset(cost_so_far, 0, sizeof(uint) * COST_MAP * COST_MAP);
 }
 
@@ -84,7 +86,7 @@ void j1Map::PropagateDijkstra()
 	// use the 2 dimensional array "cost_so_far" to track the accumulated costs
 	// on each cell (is already reset to 0 automatically)
 	iPoint curr;
-	
+
 	if (frontier.Pop(curr))
 	{
 		iPoint neighbors[4];
@@ -104,6 +106,11 @@ void j1Map::PropagateDijkstra()
 					cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
 					visited.add(neighbors[i]);
 					breadcrumbs.add(curr);
+					if (Goal != nullptr && curr == *Goal)
+					{
+						Goal_Found = true;
+						return;
+					}
 				}
 			}
 		}
