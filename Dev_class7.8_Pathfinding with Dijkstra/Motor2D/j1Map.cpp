@@ -67,13 +67,12 @@ void j1Map::Path(int x, int y)
 	iPoint goal = WorldToMap(x, y);
 	iPoint current = goal;
 
-	path.Insert(current, 0);
-	int i = 0;
-	while (current != visited.start->data && visited.find(current) != -1)
+	path.PushBack(current);
+
+	while (current != visited.start->data)
 	{
 		current = breadcrumbs[visited.find(current)];
-		path.Insert(current, i);
-		i++;
+		path.PushBack(current);
 	}
 	// TODO 2: Follow the breadcrumps to goal back to the origin
 	// add each step into "path" dyn array (it will then draw automatically)
