@@ -85,15 +85,14 @@ bool j1Scene::Update(float dt)
 		App->map->Path(p.x - App->render->camera.x, p.y - App->render->camera.y);
 	}
 	
-	if (App->input->GetMouseButtonDown(2) == KEY_DOWN)
+	if (App->input->GetMouseButtonDown(3) == KEY_DOWN)
 	{
-		App->input->GetMousePosition(App->map->Goal->x, App->map->Goal->y);
-		while (!App->map->Goal_Found)
-		{
-			App->map->PropagateDijkstra();
-		}
-		App->map->Path(App->map->Goal->x - App->render->camera.x, App->map->Goal->y - App->render->camera.y);
+		iPoint p;
+		App->input->GetMousePosition(p.x, p.y);
+		App->map->PropagateAStar();
+		App->map->Path(p.x - App->render->camera.x, p.y - App->render->camera.y);
 	}
+
 
 	App->map->Draw();
 

@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Input.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -31,6 +32,7 @@ bool j1Map::Start()
 {
 	tile_x = App->tex->Load("maps/x.png");
 	Goal_Found = false;
+	Goal = new iPoint;
 	return true;
 }
 
@@ -106,15 +108,49 @@ void j1Map::PropagateDijkstra()
 					cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
 					visited.add(neighbors[i]);
 					breadcrumbs.add(curr);
-					if (Goal != nullptr && curr == *Goal)
-					{
-						Goal_Found = true;
-						return;
-					}
 				}
 			}
 		}
 	}
+}
+
+void j1Map::PropagateAStar()
+{
+	iPoint curr;
+	iPoint tmp;
+	App->input->GetMousePosition(tmp.x, tmp.y);
+	iPoint goal = WorldToMap(tmp.x, tmp.y);
+
+	while (frontier.Pop(curr))
+	{
+		iPoint neighbors[4];
+		neighbors[0].create(curr.x + 1, curr.y + 0);
+		neighbors[1].create(curr.x + 0, curr.y + 1);
+		neighbors[2].create(curr.x - 1, curr.y + 0);
+		neighbors[3].create(curr.x + 0, curr.y - 1);
+
+		for (uint i = 0; i < 4; ++i)
+		{
+			uint new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+			if (new_cost != cost_so_far[curr.x][curr.y] - 1)
+			{
+				if (!cost_so_far[neighbors[i].x][neighbors[i].y] || cost_so_far[neighbors[i].x][neighbors[i].y] > new_cost)
+				{
+					new_cost += neighbors[i].DistanceTo(goal);
+					frontier.Push(neighbors[i], new_cost);
+					cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
+					visited.add(neighbors[i]);
+					breadcrumbs.add(curr);
+				}
+		
+			}
+		}
+		if (curr == goal)
+		{
+			break;
+		}
+	}
+
 }
 
 
@@ -344,8 +380,10 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
+	delete Goal;
 	// Clean up the pugui tree
 	map_file.reset();
+
 
 	return true;
 }
