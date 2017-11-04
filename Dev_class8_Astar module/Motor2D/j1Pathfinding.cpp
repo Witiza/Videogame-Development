@@ -167,8 +167,26 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
+	int ret;
 	// TODO 1: if origin or destination are not walkable, return -1
+	if (!IsWalkable(origin) || !IsWalkable(destination))
+		ret = -1;
+	PathList open;
+	PathList closed;
 
+	PathNode Origin(0,origin.DistanceTo(destination),origin,nullptr);
+	open.list.add(Origin);
+
+	while(open.list.count() > 0)
+	{ 
+		p2List_item<PathNode>* tmp;
+		tmp = open.GetNodeLowestScore();
+		closed.list.add(tmp->data);
+		if (tmp->data.pos == destination)
+		{
+
+		}
+	}
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
@@ -187,6 +205,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// If it is already in the open list, check if it is a better path (compare G)
 	// If it is a better path, Update the parent
 
-	return -1;
+	return ret;
 }
 
