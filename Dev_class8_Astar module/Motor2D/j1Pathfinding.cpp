@@ -181,11 +181,43 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	{ 
 		p2List_item<PathNode>* tmp;
 		tmp = open.GetNodeLowestScore();
+		open.list.del(tmp);
 		closed.list.add(tmp->data);
 		if (tmp->data.pos == destination)
 		{
-
+			last_path.PushBack(tmp->data.pos);
+			while (tmp != nullptr)
+			{
+				last_path.PushBack(tmp->data.parent->pos);
+				tmp = tmp->prev;
+			}
+			last_path.Flip();
+			LOG("PathFlipped");
 		}
+		PathList adjacent;
+		tmp->data.FindWalkableAdjacents(adjacent);
+		PathNode tmpnode;
+		for (p2List_item<PathNode>* item=adjacent.list.start;item;item=item->next)
+		{
+			if (closed.Find(item->data.pos) == NULL)
+			{
+				item->data.CalculateF(destination);
+			
+				if (open.Find(item->data.pos) == NULL)
+				{
+					open.list.add(item->data);
+				}
+				else
+				{
+					if (open.Find(item->data.pos)->data.g < item->data.g)
+					{
+						item->data.parent = tmp->data;
+						
+					}
+				}
+			}
+		}
+
 	}
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
