@@ -170,6 +170,8 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 4: Calculate the dt: differential time since last frame
+	DeltaTime = frame_time.ReadSec();
+	LOG("DELTA TIME: %f", DeltaTime);
 	frame_time.Start();
 	ptimer.Start();
 }
@@ -207,12 +209,11 @@ void j1App::FinishUpdate()
 	if (ptimer.ReadMs() < 1000 / framerate)
 	{
 		uint32 delay = 1000 / framerate - ptimer.ReadMs();
-		LOG("I wanted to delay: %i", delay);
 		SDL_Delay(delay);
-		uint32 true_delay =ptimer.ReadMs() -delay;
-		LOG("Margin of error: %i", delay - true_delay);
-		
+		float true_delay = ptimer.ReadMs();
+		LOG("We wanted to delay: %i. We had to wait: %f",delay, true_delay);
 	}
+
 	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
 }
 
@@ -257,7 +258,7 @@ bool j1App::DoUpdate()
 		// TODO 5: send dt as an argument to all updates
 		// you will need to update module parent class
 		// and all modules that use update
-		ret = item->data->Update();
+		ret = item->data->Update(DeltaTime);
 	}
 
 	return ret;
